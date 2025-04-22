@@ -42,7 +42,65 @@ h6 {
 #__next {
   isolation: isolate;
 }
+:root {
+  --font-colour-light: #eff1f2;
+  --font-colour-dark: #43808d;
+  --lightest-colour: #ceecf2;
+  --light-colour: #80b4bf;
+  --dark-colour: #6fb7bf;
+  --darkest-colour: #45858c;
+  --contrast-colour: #8c7558;
+}
+#app-wrapper {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.9rem;
+}
+::placeholder {
+  color: var(--light-colour);
+}
+#title {
+  display: flex;
+  align-items: center;
+  /* color: var(--font-colour-dark); */
+  color: var(--contrast-colour);
+}
+#location,
+#get-weather {
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.25ch 1ch;
+  font-size: 1.5rem;
+  background-color: var(--font-colour-light);
+  /* box-shadow: 2px 2px#43808d; */
+  color: var(--font-colour-dark);
+  transition: all 0.3s;
+}
+#location {
+  box-shadow: 2px 2px var(--lightest-colour);
+}
+#location:focus {
+  /* border: 1px solid var(--font-colour-dark); */
+  outline: none;
+  color: var(--font-colour-light);
+  background-color: var(--font-colour-dark);
+}
 
-body {
+#location.invalid {
   background-color: red;
+}
+#get-weather {
+  width: fit-content;
+  background-color: var(--darkest-colour);
+  color: var(--lightest-colour);
+}
+
+#get-weather:hover,
+#get-weather:active {
+  transform: scale(1.1);
+  background-color: var(--contrast-colour);
 }
