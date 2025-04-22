@@ -1,5 +1,5 @@
 export const returnWeather = async function getWeatherDataFromAPI(location) {
-  const weatherApiUrl = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}?unitGroup=metric&include=events%2Cdays%2Calerts%2Ccurrent%2Chours&key=CH6HCKMGHGXS9UFWG4NN6XECL&contentType=json
+  const weatherApiUrl = `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}?isonSet=icons2&unitGroup=metric&include=events%2Cdays%2Calerts%2Ccurrent%2Chours&key=CH6HCKMGHGXS9UFWG4NN6XECL&contentType=json
     `;
   const apiResponse = await fetch(weatherApiUrl);
   const apiData = await apiResponse.json();
