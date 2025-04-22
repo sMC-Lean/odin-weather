@@ -15,7 +15,7 @@ const creatorLink = document.getElementById("creator-link");
 
 // let userInputLocation;
 
-document.addEventListener("DOMContentLoaded", async function () {
+async function initPage() {
   const link = document.createElement("link");
   link.rel = "icon";
   link.href = iconImage;
@@ -28,13 +28,9 @@ document.addEventListener("DOMContentLoaded", async function () {
   document.querySelector("#logo").src = logoImage;
   const userLocation = await returnLocation();
   locationField.value = userLocation;
-});
+}
 
-locationField.addEventListener("focus", (event) => {
-  locationField.classList.remove("invalid");
-});
-
-getWeatherBtn.addEventListener("click", async function () {
+async function runWeatherApp() {
   if (!locationField.value) {
     locationField.classList.add("invalid");
     return;
@@ -45,7 +41,18 @@ getWeatherBtn.addEventListener("click", async function () {
   const weatherData = await returnWeather(userLocation);
   updateDisplay(weatherData);
   locationField.value = "";
+}
+
+function removeValidationError() {
+  locationField.classList.remove("invalid");
+}
+
+document.addEventListener("DOMContentLoaded", initPage);
+document.addEventListener("keyup", (event) => {
+  if (event.code === "Enter") runWeatherApp();
 });
+locationField.addEventListener("focus", removeValidationError);
+getWeatherBtn.addEventListener("click", runWeatherApp);
 
 creatorLink.addEventListener("click", () => {
   window.open("https://github.com/sMC-Lean", "blank");
