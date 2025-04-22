@@ -42,6 +42,7 @@ h6 {
 #__next {
   isolation: isolate;
 }
+
 :root {
   --font-colour-light: #eff1f2;
   --font-colour-dark: #43808d;
@@ -54,6 +55,30 @@ h6 {
   --contrast-colour: #8c7558;
   --contrast-colour-opacity: #8c755802;
 }
+/* font imports etc */
+@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&display=swap");
+
+p,
+span {
+  font-family: "Source Serif 4", serif;
+  color: var(--font-colour-dark);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+input,
+button,
+#footer-text,
+#creator-link {
+  font-family: "lato", sans-serif;
+  color: var(--contrast-colour);
+}
+
+/* end global font setting */
 
 #app-wrapper {
   display: flex;
@@ -62,6 +87,7 @@ h6 {
   flex-direction: column;
   align-items: center;
   gap: 2rem;
+  position: relative;
 }
 
 #app-header {
@@ -87,7 +113,6 @@ h6 {
 #title {
   display: flex;
   align-items: center;
-  /* color: var(--font-colour-dark); */
   color: var(--contrast-colour);
 }
 #location,
@@ -119,12 +144,6 @@ h6 {
   border: 2px solid var(--contrast-colour);
 }
 
-#get-weather:hover,
-#get-weather:active {
-  transform: scale(1.1);
-  background-color: var(--contrast-colour);
-}
-
 /* loading animation styles */
 
 #loading-spinner {
@@ -139,6 +158,15 @@ h6 {
   transform: translate(-50%, -50%);
   animation: flash 0.5s ease-out infinite alternate;
   display: none;
+}
+
+#forecast-wrapper {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  position: relative;
 }
 
 #todays-forecast,
@@ -172,7 +200,6 @@ h6 {
 .future-forecast_day-header {
   display: flex;
   flex-direction: column;
-  /* justify-content: space-between; */
 }
 
 .future-forecast_day > img {
@@ -197,6 +224,46 @@ h6 {
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
+}
+
+#page-footer {
+  position: fixed;
+  bottom: 0;
+  margin-bottom: 8px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: var(--darkest-colour);
+  padding: 0.5rem 0;
+}
+
+#footer-text {
+  color: var(--font-colour-light);
+}
+#creator-link {
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.25ch 1ch;
+  width: fit-content;
+  background-color: var(--darkest-colour);
+  color: var(--lightest-colour);
+  border: 2px solid var(--contrast-colour);
+  transition: all 0.3s;
+}
+
+#creator-link:hover,
+#creator-link:active,
+#get-weather:hover,
+#get-weather:active {
+  transform: scale(1.1);
+  background-color: var(--contrast-colour);
+  cursor: pointer;
+}
+
+#page-footer.weather-loaded {
+  position: static;
 }
 
 @keyframes flash {
@@ -229,5 +296,27 @@ h6 {
 
   #app-header.weather-loaded > #weather-search {
     flex-direction: row;
+  }
+
+  #app-wrapper {
+    height: 100vh;
+  }
+  #forecast-wrapper {
+    flex-direction: row;
+    padding: 0 5rem;
+  }
+
+  #todays-forecast,
+  #tomorrows-forecast,
+  #future-forecast {
+    max-width: none;
+  }
+
+  #future-forecast {
+    flex-direction: row;
+  }
+
+  #page-footer.weather-loaded {
+    position: fixed;
   }
 }

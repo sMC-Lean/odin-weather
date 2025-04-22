@@ -11,6 +11,7 @@ import { showLoading, clearDisplay, updateDisplay } from "./js/view.js";
 const getWeatherBtn = document.getElementById("get-weather");
 const locationField = document.getElementById("location");
 const headerBar = document.getElementById("app-header");
+const creatorLink = document.getElementById("creator-link");
 
 // let userInputLocation;
 
@@ -44,4 +45,8 @@ getWeatherBtn.addEventListener("click", async function () {
   const weatherData = await returnWeather(userLocation);
   updateDisplay(weatherData);
   locationField.value = "";
+});
+
+creatorLink.addEventListener("click", () => {
+  window.open("https://github.com/sMC-Lean", "blank");
 });

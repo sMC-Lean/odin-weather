@@ -1,6 +1,9 @@
-const wrapper = document.getElementById("app-wrapper");
+// const wrapper = document.getElementById("app-wrapper");
+const appWrapper = document.getElementById("app-wrapper");
+const forecastWrapper = document.getElementById("forecast-wrapper");
 const header = document.getElementById("app-header");
 const spinner = document.getElementById("loading-spinner");
+const footer = document.getElementById("page-footer");
 
 class forecast {
   constructor(requestedDay, data) {
@@ -54,8 +57,12 @@ const moveHeader = function moveHeaderBarAfterFirstLoad(header) {
   header.classList.add("weather-loaded");
 };
 
+const moveFooter = function moveFooterBarAfterFirstLoad(footer) {
+  // footer.style.position = "static";
+  footer.classList.add("weather-loaded");
+};
+
 const formatData = function breakAPIDataIntoDayForecasts(data) {
-  console.log(data);
   const todaysData = new forecast(0, data);
   const tomorrowsData = new forecast(1, data);
   const futureData = [
@@ -89,50 +96,51 @@ const formatLocation = function formatLocationForDisplay(location) {
 
 const showToday = function addTodaysForecastToDisplay(forecastData) {
   const html = `
-        <div id="todays-forecast_header">
-          <div id="todays-forecast_header-icons">
-            <img id="icon-today" src="" alt="icon" />
-            <h3>${forecastData.currentTemp}&#176;C</h3>
-          </div>
-          <div id="todays-forecast_header-title">
-            <h3>${formatLocation(forecastData.location)}</h3>
-            <h4>${formatDate(forecastData.date)}</h4>
-          </div>
-        </div>
-        <h5 id="todays-forecast_description">
-          ${forecastData.description}
-        </h5>
-        <div id="todays-forecast_info">
-          <div class="todays-forecast_info-item">
-            <span>Temp: </span><span>${forecastData.tempmin}&#176;C/${
+    <div id="todays-forecast_header">
+      <div id="todays-forecast_header-icons">
+        <img id="icon-today" src="" alt="icon" />
+        <h3>${forecastData.currentTemp}&#176;C</h3>
+      </div>
+      <div id="todays-forecast_header-title">
+        <h3>${formatLocation(forecastData.location)}</h3>
+        <h4>${formatDate(forecastData.date)}</h4>
+      </div>
+    </div>
+    <h4 id="todays-forecast_description">
+      ${forecastData.description}
+    </h4>
+    <div id="todays-forecast_info">
+      <div class="todays-forecast_info-item">
+        <span>Temp: </span><span>${forecastData.tempmin}&#176;C/${
     forecastData.tempmax
-  }&#176;C</span>
-          </div>
-          <div class="todays-forecast_info-item">
-            <span>Precipitation: </span><span>${forecastData.precip}mm (${
+  }&#176;C
+        </span>
+      </div>
+      <div class="todays-forecast_info-item">
+        <span>Precipitation: </span><span>${forecastData.precip}mm (${
     forecastData.precipprob
-  }%)</span>
-          </div>
-          <div class="todays-forecast_info-item">
-            <span>UV Index: </span><span>${forecastData.uvindex}</span>
-          </div>
-          <div class="todays-forecast_info-item">
-            <span>Humidity: </span><span>${forecastData.humidity}</span>
-          </div>
-          <div class="todays-forecast_info-item">
-            <span>Sunrise: </span><span>${formatTime(
-              forecastData.sunrise
-            )}</span>
-          </div>
-          <div class="todays-forecast_info-item">
-            <span>sunset: </span><span>${formatTime(forecastData.sunset)}</span>
-          </div>
-        </div>`;
+  }%)
+        </span>
+      </div>
+      <div class="todays-forecast_info-item">
+        <span>UV Index: </span><span>${forecastData.uvindex}</span>
+      </div>
+      <div class="todays-forecast_info-item">
+        <span>Humidity: </span><span>${forecastData.humidity}</span>
+      </div>
+      <div class="todays-forecast_info-item">
+        <span>Sunrise: </span><span>${formatTime(forecastData.sunrise)}
+        </span>
+      </div>
+      <div class="todays-forecast_info-item">
+        <span>Sunset: </span><span>${formatTime(forecastData.sunset)}</span>
+      </div>
+    </div>`;
 
   const newDiv = document.createElement("div");
   newDiv.setAttribute("id", "todays-forecast");
   newDiv.insertAdjacentHTML("beforeend", html);
-  wrapper.appendChild(newDiv);
+  forecastWrapper.appendChild(newDiv);
 
   import(`../icons/${forecastData.icon}.png`).then((imgUrl) => {
     document.querySelector("#icon-today").src = imgUrl.default;
@@ -151,9 +159,9 @@ const showTomorrow = function addTomorrowsForecastToDisplay(forecastData) {
       <h4>${formatDate(forecastData.date)}</h4>
     </div>
   </div>
-  <h5 id="todays-forecast_description">
+  <h4 id="todays-forecast_description">
     ${forecastData.description}
-  </h5>
+  </h4>
   <div id="todays-forecast_info">
     <div class="todays-forecast_info-item">
       <span>Temp: </span><span>${forecastData.tempmin}&#176;C/${
@@ -175,13 +183,13 @@ const showTomorrow = function addTomorrowsForecastToDisplay(forecastData) {
       <span>Sunrise: </span><span>${formatTime(forecastData.sunrise)}</span>
     </div>
     <div class="todays-forecast_info-item">
-      <span>sunset: </span><span>${formatTime(forecastData.sunset)}</span>
+      <span>Sunset: </span><span>${formatTime(forecastData.sunset)}</span>
     </div>
   </div>`;
   const newDiv = document.createElement("div");
   newDiv.setAttribute("id", "tomorrows-forecast");
   newDiv.insertAdjacentHTML("beforeend", html);
-  wrapper.appendChild(newDiv);
+  forecastWrapper.appendChild(newDiv);
 
   import(`../icons/${forecastData.icon}.png`).then((imgUrl) => {
     document.querySelector("#icon-tomorrow").src = imgUrl.default;
@@ -191,9 +199,8 @@ const showTomorrow = function addTomorrowsForecastToDisplay(forecastData) {
 const showFuture = function showDaysToFiveDayOutlook(forecastData) {
   const newDiv = document.createElement("div");
   newDiv.setAttribute("id", "future-forecast");
-  wrapper.appendChild(newDiv);
+  appWrapper.appendChild(newDiv);
   forecastData.forEach((day, index) => {
-    console.log(day);
     const html = `
           <div class="future-forecast_day">
             <div class="future-forecast_day-header">
@@ -237,8 +244,8 @@ export const clearDisplay = function deleteOldDisplayData() {
 
 export const updateDisplay = function displayNewWeatherData(data) {
   moveHeader(header);
+  moveFooter(footer);
   const forecastData = formatData(data);
-  console.log(forecastData);
   showToday(forecastData.todaysData);
   showTomorrow(forecastData.tomorrowsData);
   showFuture(forecastData.futureData);
