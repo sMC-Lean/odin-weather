@@ -7,15 +7,21 @@
   </head>
   <body>
     <div id="app-wrapper">
-      <div id="title">
-        <img src="" alt="" id="logo" />
-        <h1 id="app-name">QikChek</h1>
+      <div id="app-header">
+        <div id="title">
+          <img src="" alt="" id="logo" />
+          <h1 id="app-name">QikChek</h1>
+        </div>
+
+        <div id="weather-search">
+          <input type="text" id="location" placeholder="Weather Location" />
+          <button id="get-weather">Get Weather</button>
+        </div>
       </div>
-      <input type="text" id="location" placeholder="Weather Location" /><button
-        id="get-weather"
-      >
-        Get Weather
-      </button>
+      
+      </div>
     </div>
+    
+    <span id="loading-spinner"></span>
   </body>
 </html>
