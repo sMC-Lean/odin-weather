@@ -1,7 +1,3 @@
-/*
-  Josh's Custom CSS Reset
-  https://www.joshwcomeau.com/css/custom-css-reset/
-*/
 *,
 *::before,
 *::after {
@@ -264,6 +260,20 @@ button,
   transform: scale(1.1);
   background-color: var(--contrast-colour);
   cursor: pointer;
+}
+
+#error-screen {
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.error-text {
+  align-self: start;
+}
+#error-icon {
+  max-width: 100px;
 }
 
 #page-footer.weather-loaded {

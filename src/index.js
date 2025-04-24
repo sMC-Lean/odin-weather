@@ -27,7 +27,14 @@ async function initPage() {
   body.style.backgroundSize = "cover";
   document.querySelector("#logo").src = logoImage;
   const userLocation = await returnLocation();
-  locationField.value = userLocation;
+  if (userLocation.error) {
+    console.error(userLocation.error);
+    console.log(
+      "unable to get weather location from API, please input manually"
+    );
+  } else if (!userLocation.error) {
+    locationField.value = userLocation;
+  }
 }
 
 async function runWeatherApp() {

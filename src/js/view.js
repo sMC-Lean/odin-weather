@@ -99,7 +99,7 @@ const showToday = function addTodaysForecastToDisplay(forecastData) {
     <div id="todays-forecast_header">
       <div id="todays-forecast_header-icons">
         <img id="icon-today" src="" alt="icon" />
-        <h3>${forecastData.currentTemp}&#176;C</h3>
+        <h3>Currently ${forecastData.currentTemp}&#176;C</h3>
       </div>
       <div id="todays-forecast_header-title">
         <h3>${formatLocation(forecastData.location)}</h3>
@@ -152,7 +152,7 @@ const showTomorrow = function addTomorrowsForecastToDisplay(forecastData) {
   <div id="todays-forecast_header">
     <div id="todays-forecast_header-icons">
       <img id="icon-tomorrow" src="" alt="icon" />
-      <h3>${forecastData.avgtemp}&#176;C</h3>
+      <h3>${forecastData.avgtemp}&#176;C (Average)</h3>
     </div>
     <div id="todays-forecast_header-title">
       <h3>Tomorrow</h3>
@@ -226,6 +226,26 @@ const showFuture = function showDaysToFiveDayOutlook(forecastData) {
   });
 };
 
+const showError = function displayGetWeatherErrorMessage(error) {
+  console.error(error);
+  const errorScreen = document.createElement("div");
+  errorScreen.setAttribute("id", "error-screen");
+  const html = `
+          <img src="" alt="a small icon showing an error has occurred" id="error-icon">
+          <h2 id="error-title">No Weather Here?</h2>
+          <p class="error-text">Something went wrong in your request.</p>
+          <p class="error-text">Either the location you searched for was not found,</p>
+          <p class="error-text">or the service could not be reached.</p>
+          <p class="error-text">Please wait a few moments and try again.</p>
+  `;
+  errorScreen.insertAdjacentHTML("afterbegin", html);
+  forecastWrapper.appendChild(errorScreen);
+  import("../icons/error.png").then((imgUrl) => {
+    const errorIcon = document.getElementById("error-icon");
+    errorIcon.src = imgUrl.default;
+  });
+};
+
 export const clearDisplay = function deleteOldDisplayData() {
   const todaysForecastElement = document.getElementById("todays-forecast");
   if (todaysForecastElement) {
@@ -240,14 +260,23 @@ export const clearDisplay = function deleteOldDisplayData() {
   if (futureForecastElement) {
     futureForecastElement.remove();
   }
+
+  const errorScreenElement = document.getElementById("error-screen");
+  if (errorScreenElement) {
+    errorScreenElement.remove();
+  }
 };
 
 export const updateDisplay = function displayNewWeatherData(data) {
   moveHeader(header);
   moveFooter(footer);
-  const forecastData = formatData(data);
-  showToday(forecastData.todaysData);
-  showTomorrow(forecastData.tomorrowsData);
-  showFuture(forecastData.futureData);
+  if (data.error) {
+    showError(data.error);
+  } else {
+    const forecastData = formatData(data);
+    showToday(forecastData.todaysData);
+    showTomorrow(forecastData.tomorrowsData);
+    showFuture(forecastData.futureData);
+  }
   showLoading(false);
 };
